@@ -3,6 +3,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
+#include "Engine/World.h"
 // Sets default values
 AGun::AGun()
 {
@@ -38,7 +39,14 @@ void AGun::PullTrigger() {
 	FVector Location;
 	FRotator Rotation;
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
-	DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
-
-	DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(),90,2,FColor::Red, true);
+	FVector End = Location + Rotation.Vector() * MaxRange;
+	// Draw Debug point
+	FHitResult Hit;
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+	UE_LOG(LogTemp, Warning, TEXT("bSuccess: %d"), bSuccess);
+	if (bSuccess) {
+		DrawDebugPoint(GetWorld(),Hit.Location,20,FColor::Red,true);
+	}
+	// DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
+	// DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(),90,2,FColor::Red, true);
 }
