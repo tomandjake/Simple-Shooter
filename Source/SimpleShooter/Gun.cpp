@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Gun.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 // Sets default values
 AGun::AGun()
 {
@@ -9,7 +11,7 @@ AGun::AGun()
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(Root);
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
-	Mesh->SetupAttachment(Root); 	
+	Mesh->SetupAttachment(Root);
 }
 
 // Called when the game starts or when spawned
@@ -25,3 +27,18 @@ void AGun::Tick(float DeltaTime)
 
 }
 
+void AGun::PullTrigger() {
+	// UE_LOG(LogTemp, Display, TEXT("Your HAVE BEEN SHOT"));
+	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if(OwnerPawn == nullptr) return;
+	AController* OwnerController = OwnerPawn->GetController();
+	if(OwnerController == nullptr) return;
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+	DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
+
+	DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(),90,2,FColor::Red, true);
+}
