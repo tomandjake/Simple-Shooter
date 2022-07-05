@@ -14,6 +14,9 @@ AShooterCharacter::AShooterCharacter()
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Health = MaxHealth;
+
 	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
@@ -62,5 +65,14 @@ void AShooterCharacter::LookRightRate(float AxisValue) {
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->DeltaTimeSeconds);
 }
 
+float AShooterCharacter::TakeDamage(float DamageAmount,
+				 struct FDamageEvent const& DamageEvent,
+				 class AController* EventInstigator, AActor* DamageCauser) {
+	float DamageToApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	DamageToApplied = FMath::Min(Health, DamageToApplied);
+	Health -= DamageToApplied;
+	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
+	return DamageToApplied;
+}
 
 

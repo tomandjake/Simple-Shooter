@@ -23,7 +23,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root;
@@ -39,4 +38,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float MaxRange = 10000;
+
+	UPROPERTY(EditAnywhere)
+	float Damage = 10;	
 };
