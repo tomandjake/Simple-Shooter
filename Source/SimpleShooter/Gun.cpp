@@ -57,6 +57,4 @@ void AGun::PullTrigger() {
 			HitActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
 		}
 	}
-	// DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
-	// DrawDebugCamera(GetWorld(), GetActorLocation(), GetActorRotation(),90,2,FColor::Red, true);
 }
