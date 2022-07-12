@@ -45,6 +45,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	class USoundBase* MuzzleSound;
 
+	UPROPERTY(EditAnywhere)
+	class USoundBase* ImpactSound;
+
 	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
 
 	AController* GetOwnerController() const;

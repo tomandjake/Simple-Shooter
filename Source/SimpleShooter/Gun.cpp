@@ -64,7 +64,8 @@ void AGun::PullTrigger() {
 	// UE_LOG(LogTemp, Warning, TEXT("bSuccess: %d"), bSuccess);
 	if (bSuccess) {
 		// DrawDebugPoint(GetWorld(),Hit.Location,20,FColor::Red,true);
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),ImpactEffect,Hit.Location,ShotDirection.Rotation());
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),ImpactEffect,Hit.Location, ShotDirection.Rotation());
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(),ImpactSound,Hit.Location);
 		AActor* HitActor = Hit.GetActor();
 		if(HitActor != nullptr){
 			FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection,nullptr);
