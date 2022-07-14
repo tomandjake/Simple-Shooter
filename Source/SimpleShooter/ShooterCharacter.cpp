@@ -30,6 +30,11 @@ bool AShooterCharacter::IsDead() const
 	return Health <= 0;
 }
 
+float AShooterCharacter::GetHealthPercent() const
+{
+	return Health / MaxHealth;
+}
+
 // Called every frame
 void AShooterCharacter::Tick(float DeltaTime)
 {
@@ -78,7 +83,7 @@ float AShooterCharacter::TakeDamage(float DamageAmount,
 	float DamageToApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	DamageToApplied = FMath::Min(Health, DamageToApplied);
 	Health -= DamageToApplied;
-	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
+	// UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
 
 	if(IsDead()) {
 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
